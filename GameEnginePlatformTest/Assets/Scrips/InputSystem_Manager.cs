@@ -6,6 +6,7 @@ public class InputSystem_Manager : MonoBehaviour
 {
     public Action<Vector2> OnMoveInput;
     public Action<Vector2> OnLookInput;
+    public Action OnJumpAction;
     public Action OnInteractStarted;
     public Action OnInteractCanceled;
 
@@ -21,10 +22,12 @@ public class InputSystem_Manager : MonoBehaviour
         _moveAction = map.FindAction("Move");
         _lookAction = map.FindAction("Look");
         _interactAction = map.FindAction("Interact");
-        _jumpAction = map.FindAction("Jump");
+        _jumpAction = InputSystem.actions.FindAction("Jump");
 
         _interactAction.started += ctx => OnInteractStarted?.Invoke();
         _interactAction.canceled += ctx => OnInteractCanceled?.Invoke();
+
+        _jumpAction.performed += ctx => OnJumpAction?.Invoke();
     }
 
     private void Update()
@@ -35,7 +38,7 @@ public class InputSystem_Manager : MonoBehaviour
         Vector2 lookDir = _lookAction.ReadValue<Vector2>();
         OnLookInput?.Invoke(lookDir);
 
-        Vector3 Jump = _jumpAction.ReadValue<Button>();
+        
     }
 
     void OnEnable() => _inputControls.Enable();

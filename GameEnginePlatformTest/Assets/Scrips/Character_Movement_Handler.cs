@@ -7,7 +7,7 @@ public class Character_Movement_Handler : MonoBehaviour
     //-----------------------//
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpForce;
-    public bool jumped = false;
+    bool _jumped = false;
 
     Vector3 _moveInput;
 
@@ -35,6 +35,7 @@ public class Character_Movement_Handler : MonoBehaviour
     private void OnEnable()
     {
         isManager.OnMoveInput += ReceiveMoveInput;
+        isManager.OnJumpAction += ReceiveJumpInput;
     }
 
     private void OnDisable()
@@ -46,6 +47,12 @@ public class Character_Movement_Handler : MonoBehaviour
     {
         _moveInput = MoveInput;
         
+    }
+
+    public bool ReceiveJumpInput(bool jumped)
+    {
+        _jumped = jumped;
+        return jumped;
     }
 
 
